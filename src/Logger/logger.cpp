@@ -12,7 +12,7 @@ bool evaluate(const Event &e, const Rule &r) {
 Alert generateAlert(const Event &e, const Rule &r) {
     Alert a;
     a.name = r.name;
-    a.severity = r.severity;
+    a.severity = e.severity;
     a.message = "Alert: " + r.name + " User: " + e.username + " IP: " + e.src_ip;
     return a;
 }

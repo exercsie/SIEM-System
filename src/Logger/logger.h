@@ -5,6 +5,7 @@ struct Event {
     std::string username;
     std::string src_ip;
     bool success;
+    std::string severity;
 };
 
 struct Rule {
@@ -12,7 +13,6 @@ struct Rule {
     std::string field;
     std::string op;
     std::string value;
-    std::string severity;
 };
 
 struct Alert {
