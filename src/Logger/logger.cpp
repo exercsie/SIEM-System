@@ -9,7 +9,7 @@ bool evaluate(const Event &e, const Rule &r) {
     return false;
 }
 
-Alert generateAlert(const Event &e, Rule &r) {
+Alert generateAlert(const Event &e, const Rule &r) {
     Alert a;
     a.name = r.name;
     a.severity = r.severity;
