@@ -18,6 +18,12 @@ void processEvents(const std::vector<Event> &events, const std::vector<Rule> &ru
 }
 
 int main() {
+
+    IPList unsafeIPs;
+    unsafeIPs.insert("192.168.3.22");
+    unsafeIPs.insert("10.0.0.13");
+    unsafeIPs.insert("8.8.8.8");
+
     std::vector<Event> events = {
         {"login", "bonnieMaster922", "192.168.32.2", false, "High"},
         {"login", "basketball199", "192.168.92.3", false, "Low"},
@@ -28,7 +34,7 @@ int main() {
         {"Failed login detected", "success", "==", "false"}
     };
 
-    processEvents(events, rules);
+    processEvents(events, rules, unsafeIPs);
 
     return 0;
 }
