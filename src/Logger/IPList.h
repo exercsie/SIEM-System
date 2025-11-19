@@ -19,4 +19,15 @@ class IPList {
             newNode->next = head;
             head = newNode;
         }
+
+        bool contains(const std::string &ip) const {
+            IPNode *current = head;
+            while (current) {
+                if (current->ip == ip) {
+                    return true;
+                }
+                current = current->next;
+            }
+            return false;
+        }
 }
