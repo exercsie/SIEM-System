@@ -13,6 +13,6 @@ Alert generateAlert(const Event &e, const Rule &r) {
     Alert a;
     a.name = r.name;
     a.severity = e.severity;
-    a.message = "Alert: " + r.name + " User: " + e.username + " IP: " + e.src_ip;
+    a.message = "\033[0mAlert: \033[0m" + r.name + " User: " + e.username + " IP: " + e.src_ip;
     return a;
 }
