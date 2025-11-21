@@ -31,7 +31,29 @@ int main() {
         {"Failed login detected", "success", "==", "false"}
     };
 
-    processEvents(events, rules, unsafeIPs);
+    int choice = -1;
 
+    while (true) {
+        std::cout << "0 - Exit\n";
+        std::cout << "1 - Check alerts \n";
+        std::cin >> choice;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore (1000, '\n');
+            std::cout << "Invalid input. Try again.\n";
+            continue;
+        }
+
+        if (choice == 1) {
+            std::cout << "\nChecking alerts..\n";
+            processEvents(events, rules, unsafeIPs);
+        } else if (choice == 0) {
+            std::cout << "Exiting program.\n";
+            break;
+        } else {
+            std::cout << "Invalid choice. Try again.\n";
+        }
+    }
     return 0;
 }
