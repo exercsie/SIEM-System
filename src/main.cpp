@@ -43,17 +43,18 @@ int main() {
             std::cin.ignore (1000, '\n');
             std::cout << "Invalid input. Try again.\n";
             continue;
-        }
-
-        if (choice == 1) {
-            std::cout << "\nChecking alerts..\n";
-            processEvents(events, rules, unsafeIPs);
-        } else if (choice == 0) {
-            std::cout << "Exiting program.\n";
-            break;
-        } else {
+        } else if (choice > 1) {
             std::cout << "Invalid choice. Try again.\n";
         }
+
+        switch (choice) {
+            case 0: std::cout << "Exiting program.\n";
+            return 0;
+            case 1: std::cout << "\nChecking alerts..\n";
+            processEvents(events, rules, unsafeIPs);
+            break;
+        }
     }
+
     return 0;
 }
