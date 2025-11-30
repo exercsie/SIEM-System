@@ -9,7 +9,7 @@ void processEvents(const std::vector<Event> &events, const std::vector<Rule> &ru
             std::cout << "\033[31m[!!]\033[0m Alert: Unsafe IP detected " << event.src_ip << " (User: " << event.username << ")\n";
         }
         for (const auto &rule : rules) {
-            if (evaluate(event, rule)) {
+            if (unsafeIPs.contains(event.src_ip) && evaluate(event, rule)) {
                 Alert alert = generateAlert(event, rule);
                 std::cout << alert.severity << alert.message << "\n";
             }
@@ -64,6 +64,11 @@ int main() {
                     std::cout << "The current blocked ips are: \n"; 
                     unsafeIPs.printIPs();
                     std::cout << "0 - Back to main menu\n";
+
+                    for (int i = 0; i < events.size(); i++) {
+                        std::cout << i + 1 << " - " << events[i].src_ip << "User: " << events[i].username << std::endl;
+                    }
+
                     std::cin >> blockChoice;
 
                     if (std::cin.fail()) {
@@ -78,10 +83,17 @@ int main() {
                         break;
                     }
 
+                    std::string ipToBlock = events[blockChoice - 1].src_ip;
 
-
-
+                    if (unsafeIPs.contains(ipToBlock)) {
+                        std::cout << "IP already blocked.\n";
+                    } else {
+                        unsafeIPs.insert(ipToBlock);
+                        unsafeIPs.saveToFile("blockedIPs.txt");
+                        std::cout << "Blocked IP: " << ipToBlock << "\n";
+                    }
                 }
+                break;
             }
             break;
         }

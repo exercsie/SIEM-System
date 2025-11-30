@@ -61,6 +61,27 @@ public:
         }
     }
 
+    std::string getIP(int x) const {
+        IPNode *current = head;
+        int currentx = 1;
+        while (current) {
+            if (currentx == x) {
+                return current->ip;
+            }
+            current = current->next;
+            currentx;
+        }
+        return "";
+    }
+
+    bool saveToFile (const std::string &filename) const {
+        std::ofstream file (filename, std::ios::out);
+        if (!file.is_open()) return false;
+
+        file << head->ip << "\n";
+        return true;
+    }
+
     ~IPList() {
         IPNode *current = head;
         while (current) {
