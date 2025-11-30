@@ -64,17 +64,23 @@ int main() {
                 int blockChoice = -1;
 
                 while (true) {
-                    std::cout << "The current blocked ips are: \n"; 
+                    std::cout << "The current unsafe ips are: \n"; 
                     unsafeIPs.printIPs();
-                    std::cout << "\n0 - Back to main menu\n";
-                    std::cout << "Which IP would you like to block?\n";
-
+                    
                     std::vector<Event> selectableIPs;
                     for (const auto &event : events) {
                         if (unsafeIPs.contains(event.src_ip) && !blockedIPs.contains(event.src_ip)) {
                             selectableIPs.push_back(event);
                         }
                     }
+
+                    if (selectableIPs.empty()) {
+                        std::cout << "\nThere are no more unsafe IPs to block\n";
+                        break;
+                    }
+
+                    std::cout << "\n0 - Back to main menu\n";
+                    std::cout << "Which IP would you like to block?\n";
 
                     for (int i = 0; i < selectableIPs.size(); i++) {
                         std::cout << i + 1 << " - " << selectableIPs[i].src_ip << " User: " << selectableIPs[i].username << std::endl;
