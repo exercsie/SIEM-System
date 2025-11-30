@@ -23,9 +23,12 @@ int main() {
     IPList unsafeIPs;
     unsafeIPs.loadFromFile("unsafeIPList.txt");
 
+    IPList blockedIPs;
+    blockedIPs.loadFromFile("blockedIPs.txt");
+
     std::vector<Event> events = {
         {"login", "bonnieMaster922", "192.168.32.2", false, "\033[31m[High]\033[31m "},
-        {"login", "basketball199", "10.0.0.13", false, "\033[32m[Low]\033[32m "},
+        {"login", "basketball199", "29.3881.283", false, "\033[32m[Low]\033[32m "},
         {"login", "mouse12", "192.168.3.22", false, "\033[33m[Medium]\033[33m "}
     };
 
@@ -63,10 +66,18 @@ int main() {
                 while (true) {
                     std::cout << "The current blocked ips are: \n"; 
                     unsafeIPs.printIPs();
-                    std::cout << "0 - Back to main menu\n";
+                    std::cout << "\n0 - Back to main menu\n";
+                    std::cout << "Which IP would you like to block?\n";
 
-                    for (int i = 0; i < events.size(); i++) {
-                        std::cout << i + 1 << " - " << events[i].src_ip << "User: " << events[i].username << std::endl;
+                    std::vector<Event> selectableIPs;
+                    for (const auto &event : events) {
+                        if (unsafeIPs.contains(event.src_ip) && !blockedIPs.contains(event.src_ip)) {
+                            selectableIPs.push_back(event);
+                        }
+                    }
+
+                    for (int i = 0; i < selectableIPs.size(); i++) {
+                        std::cout << i + 1 << " - " << selectableIPs[i].src_ip << " User: " << selectableIPs[i].username << std::endl;
                     }
 
                     std::cin >> blockChoice;
@@ -83,18 +94,16 @@ int main() {
                         break;
                     }
 
-                    std::string ipToBlock = events[blockChoice - 1].src_ip;
+                    std::string ipToBlock = selectableIPs[blockChoice - 1].src_ip;
 
-                    if (unsafeIPs.contains(ipToBlock)) {
-                        std::cout << "IP already blocked.\n";
-                    } else {
-                        unsafeIPs.insert(ipToBlock);
-                        unsafeIPs.saveToFile("blockedIPs.txt");
-                        std::cout << "Blocked IP: " << ipToBlock << "\n";
-                    }
+                    blockedIPs.insert(ipToBlock);
+                    blockedIPs.saveToFile("blockedIPs.txt");
+                    std::cout << "\nBlocked IP: " << ipToBlock << "\n";
                 }
+
                 break;
             }
+
             break;
         }
     }

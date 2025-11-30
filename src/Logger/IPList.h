@@ -75,7 +75,7 @@ public:
     }
 
     bool saveToFile (const std::string &filename) const {
-        std::ofstream file (filename, std::ios::out);
+        std::ofstream file (filename, std::ios::app);
         if (!file.is_open()) return false;
 
         file << head->ip << "\n";
