@@ -42,6 +42,7 @@ int main() {
         std::cout << "\n0 - Exit\n";
         std::cout << "1 - Check alerts \n";
         std::cout << "2 - Block IPs \n";
+        std::cout << "3 - Show blocked IPs\n";
         std::cin >> choice;
 
         if (std::cin.fail()) {
@@ -49,7 +50,7 @@ int main() {
             std::cin.ignore (1000, '\n');
             std::cout << "Invalid input. Try again.\n";
             continue;
-        } else if (choice > 2) {
+        } else if (choice > 3) {
             std::cout << "Invalid choice. Try again.\n";
         }
 
@@ -80,7 +81,7 @@ int main() {
                     }
 
                     std::cout << "\n0 - Back to main menu\n";
-                    std::cout << "Which IP would you like to block?\n";
+                    std::cout << "\nWhich IP would you like to block?\n";
 
                     for (int i = 0; i < selectableIPs.size(); i++) {
                         std::cout << i + 1 << " - " << selectableIPs[i].src_ip << " User: " << selectableIPs[i].username << std::endl;
@@ -109,6 +110,8 @@ int main() {
 
                 break;
             }
+            case 3: std::cout << "\nChecking blocked IPs...\n";
+            blockedIPs.printIPs();
 
             break;
         }
