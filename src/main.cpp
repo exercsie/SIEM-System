@@ -17,13 +17,15 @@ void processEvents(const std::vector<Event> &events, const std::vector<Rule> &ru
     }
 }
 
+
+
 int main() {
     IPList unsafeIPs;
     unsafeIPs.loadFromFile("unsafeIPList.txt");
 
     std::vector<Event> events = {
         {"login", "bonnieMaster922", "192.168.32.2", false, "\033[31m[High]\033[31m "},
-        {"login", "basketball199", "192.168.92.3", false, "\033[32m[Low]\033[32m "},
+        {"login", "basketball199", "10.0.0.13", false, "\033[32m[Low]\033[32m "},
         {"login", "mouse12", "192.168.3.22", false, "\033[33m[Medium]\033[33m "}
     };
 
@@ -34,7 +36,7 @@ int main() {
     int choice = -1;
 
     while (true) {
-        std::cout << "0 - Exit\n";
+        std::cout << "\n0 - Exit\n";
         std::cout << "1 - Check alerts \n";
         std::cout << "2 - Block IPs \n";
         std::cin >> choice;
@@ -53,7 +55,31 @@ int main() {
             return 0;
             case 1: std::cout << "\nChecking alerts..\n";
             processEvents(events, rules, unsafeIPs);
-            case 2: std::cout << "\n Choose an IP to block \n";
+            break;
+            case 2: {
+                int blockChoice = -1;
+
+                while (true) {
+                    std::cout << "\n0 - Back to main menu\n";
+                    std::cin >> blockChoice;
+
+                    if (std::cin.fail()) {
+                        std::cin.clear();
+                        std::cin.ignore (1000, '\n');
+                        std::cout << "Invalid input";
+                        continue;
+                    }
+
+                    if (blockChoice == 0) {
+                        std::cout << "\nReturning to menu..\n";
+                        break;
+                    }
+
+
+
+
+                }
+            }
             break;
         }
     }
