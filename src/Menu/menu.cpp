@@ -3,8 +3,7 @@
 #include "menu.h"
 #include "../Logger/logger.h"
 #include "../Logger/IPList.h"
-#include "../eventProcessor/eventProcessor.h"
-
+#include "../Event_Processor/eventProcessor.h"
 
 void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std::vector<Rule> &rules) {
         int choice = -1;
@@ -77,7 +76,7 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
                     std::string ipToBlock = selectableIPs[blockChoice - 1].src_ip;
 
                     blockedIPs.insert(ipToBlock);
-                    blockedIPs.saveToFile("blockedIPs.txt");
+                    blockedIPs.saveToFile("Files/blockedIPs.txt");
                     std::cout << "\nBlocked IP: " << ipToBlock << "\n";
                 }
 

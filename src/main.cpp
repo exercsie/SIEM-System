@@ -3,14 +3,14 @@
 #include "Logger/logger.h"
 #include "Logger/IPList.h"
 #include "Menu/menu.h"
-#include "eventProcessor/eventProcessor.h"
+#include "Event_Processor/eventProcessor.h"
 
 int main() {
     IPList unsafeIPs;
-    unsafeIPs.loadFromFile("unsafeIPList.txt");
+    unsafeIPs.loadFromFile("Files/unsafeIPList.txt");
 
     IPList blockedIPs;
-    blockedIPs.loadFromFile("blockedIPs.txt");
+    blockedIPs.loadFromFile("Files/blockedIPs.txt");
 
     std::vector<Event> events = {
         {"login", "bonnieMaster922", "192.168.32.2", false, "\033[31m[High]\033[31m "},
