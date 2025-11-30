@@ -57,10 +57,13 @@ int main() {
             processEvents(events, rules, unsafeIPs);
             break;
             case 2: {
+                std::cout << "\nChecking blocked IPs...\n";
                 int blockChoice = -1;
 
                 while (true) {
-                    std::cout << "\n0 - Back to main menu\n";
+                    std::cout << "The current blocked ips are: \n"; 
+                    unsafeIPs.printIPs();
+                    std::cout << "0 - Back to main menu\n";
                     std::cin >> blockChoice;
 
                     if (std::cin.fail()) {

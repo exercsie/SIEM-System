@@ -49,6 +49,18 @@ public:
         return false;
     }
 
+    void printIPs() const {
+        IPNode *current = head;
+        int x = 1;
+        while (current) {
+            std::cout << x++ << " - " << current->ip << "\n";
+            current = current->next;
+        }
+        if (head == nullptr) {
+            std::cout << "No blocked ips\n";
+        }
+    }
+
     ~IPList() {
         IPNode *current = head;
         while (current) {
