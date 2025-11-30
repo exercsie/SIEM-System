@@ -36,6 +36,7 @@ int main() {
     while (true) {
         std::cout << "0 - Exit\n";
         std::cout << "1 - Check alerts \n";
+        std::cout << "2 - Block IPs \n";
         std::cin >> choice;
 
         if (std::cin.fail()) {
@@ -43,15 +44,16 @@ int main() {
             std::cin.ignore (1000, '\n');
             std::cout << "Invalid input. Try again.\n";
             continue;
-        } else if (choice > 1) {
+        } else if (choice > 2) {
             std::cout << "Invalid choice. Try again.\n";
         }
 
         switch (choice) {
-            case 0: std::cout << "Exiting program.\n";
+            case 0: std::cout << "\nExiting program.\n";
             return 0;
             case 1: std::cout << "\nChecking alerts..\n";
             processEvents(events, rules, unsafeIPs);
+            case 2: std::cout << "\n Choose an IP to block \n";
             break;
         }
     }
