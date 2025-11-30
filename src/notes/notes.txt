@@ -1,0 +1,9 @@
+Add a GUI https://www.youtube.com/watch?v=BjQhp0eHmJw
+Create a linked list and button that stores and adds IPs which have been marked as "unsafe"
+Make it so that if the IP that a user is using to enter a system is marked as "unsafe" it will block their entry
+Add data flow tracker using Network Traffic Analysis Integration
+
+
+Make it so that when you block an IP it removes the ip from the unsafe category as it has already been blocked.
+
+add user lookup ability option in the menu
