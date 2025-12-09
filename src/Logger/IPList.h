@@ -84,6 +84,26 @@ public:
         return "";
     }
 
+    bool remove(const std::string &ip) {
+        IPNode *current = head;
+        IPNode *previous = nullptr;
+
+        while (current) {
+            if (current->ip == ip) {
+                if (previous) {
+                    previous->next = current->next;
+                } else {
+                    head = current->next;
+                }
+                delete current;
+                return true;
+            }
+            previous = current;
+            current = current->next;
+        }
+        return false;
+    }
+
     bool saveToFile (const std::string &filename) const {
         std::ofstream file (filename, std::ios::app);
         if (!file.is_open()) return false;
