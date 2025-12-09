@@ -78,6 +78,9 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
 
                     blockedIPs.insert(ipToBlock);
                     blockedIPs.saveToFile("Files/blockedIPs.txt");
+
+                    unsafeIPs.remove(ipToBlock);
+                    unsafeIPs.saveAllToFile("Files/unsafeIPList.txt");
                     std::cout << "\nBlocked IP: " << ipToBlock << " User: " << userToBlock << "\n";
                 }
 
