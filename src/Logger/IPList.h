@@ -104,6 +104,10 @@ public:
         return false;
     }
 
+    bool empty() const {
+        return head == nullptr;
+    }
+
     bool saveAllToFile(const std::string &filename) const {
         std::ofstream file(filename, std::ios::trunc);
         if (!file.is_open()) {

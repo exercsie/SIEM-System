@@ -88,6 +88,10 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
             }
 
             case 3: std::cout << "\nChecking blocked IPs...\n";
+            if (blockedIPs.empty()) {
+                std::cout << "There are no blocked ips.\n";
+                break;
+            }
 
             int x = 1;
 
