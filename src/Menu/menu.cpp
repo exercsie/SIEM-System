@@ -134,7 +134,7 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
                 blockedIPs.forEach([&](const std::string &ip) {
                     for (const auto &e : events) {
                         if (e.src_ip == ip && e.username == query) {
-                            std::cout << "User " << query << "'s IP of " << ip << " is blocked.\n";
+                            std::cout << "User \"" << query << "\"'s IP of " << ip << " is blocked.\n";
                             found = true;
                             break;
                         }
@@ -144,12 +144,18 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
                 unsafeIPs.forEach([&](const std::string &ip) {
                     for (const auto &e : events) {
                         if (e.src_ip == ip && e.username == query) {
-                            std::cout << "User " << query << "'s IP of " << ip << " is unsafe.\n";
+                            std::cout << "User \"" << query << "\"'s IP of " << ip << " is unsafe.\n";
                             found = true;
                             break;
                         }
                     }
                 });
+
+                for (const auto &e : events) {
+                    if (e.username == query && !blockedIPs.contains(e.src_ip) && !unsafeIPs.contains(e.src_ip)) {
+                        std::cout << "User: \"" << query << "\"'s IP of " << e.src_ip << " is safe.\n";
+                    }
+                }
 
                 if (!found) {
                     std::cout << "The username: \"" << query << "\", cannot be found or does not exist.\n";
