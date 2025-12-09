@@ -150,6 +150,10 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
                         }
                     }
                 });
+
+                if (!found) {
+                    std::cout << "The username: \"" << query << "\", cannot be found or does not exist.\n";
+                }
             }
         }
     }
