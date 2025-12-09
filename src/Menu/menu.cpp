@@ -26,13 +26,16 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
         }
 
         switch (choice) {
-            case 0: std::cout << "\nExiting program.\n";
-            return;
+            case 0: {
+                std::cout << "\nExiting program.\n";
+                return;
+            }
 
-            case 1: std::cout << "\nChecking alerts..\n";
-            processEvents(events, rules, unsafeIPs);
-            break;
-
+            case 1: { std::cout << "\nChecking alerts..\n";
+                processEvents(events, rules, unsafeIPs);
+                break;
+            }  
+            
             case 2: {
                 std::cout << "\nChecking blocked IPs...\n";
                 int blockChoice = -1;
@@ -100,30 +103,32 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
                 break;
             }
 
-            case 3: std::cout << "\nChecking blocked IPs...\n";
-            if (blockedIPs.empty()) {
-                std::cout << "There are no blocked ips.\n";
+            case 3: {
+                int x = 1;
+                std::cout << "\nChecking blocked IPs...\n";
+                if (blockedIPs.empty()) {
+                    std::cout << "There are no blocked ips.\n";
+                    break;
+                }
+                blockedIPs.forEach([&](const std::string &blockedIPs) {
+                    std::string user = "Unknown";
+
+                    for (const auto &e : events) {
+                        if (e.src_ip == blockedIPs) {
+                            user = e.username;
+                            break;
+                        }
+                    }
+
+                    std::cout << x++ << " - " << blockedIPs << " User: " << user << "\n";
+                });
                 break;
             }
 
-            int x = 1;
-
-            blockedIPs.forEach([&](const std::string &blockedIPs) {
-                std::string user = "Unknown";
-
-                for (const auto &e : events) {
-                    if (e.src_ip == blockedIPs) {
-                        user = e.username;
-                        break;
-                    }
-                }
-
-                std::cout << x++ << " - " << blockedIPs << " User: " << user << "\n";
-            });
-            break;
-
-            case 4: std::cout << "\nBringing up search query";
-            std::string query;
+            case 4: {
+                std::cout << "\nBringing up search query";
+                std::string query;
+            }
         }
     }
 }
