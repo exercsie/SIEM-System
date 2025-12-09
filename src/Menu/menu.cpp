@@ -35,10 +35,22 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
             case 2: {
                 std::cout << "\nChecking blocked IPs...\n";
                 int blockChoice = -1;
+                int x = 1;
 
                 while (true) {
                     std::cout << "The current unsafe ips are: \n"; 
-                    unsafeIPs.printIPs();
+                    unsafeIPs.forEach([&](const std::string &unsafeIPs) {
+                    std::string user = "Unknown";
+
+                    for (const auto &e : events) {
+                        if (e.src_ip == unsafeIPs) {
+                            user = e.username;
+                            break;
+                        }
+                    }   
+                        
+                std::cout << x++ << " - " << unsafeIPs << " User: " << user << "\n";
+                });
                     
                     std::vector<Event> selectableIPs;
                     for (const auto &event : events) {
