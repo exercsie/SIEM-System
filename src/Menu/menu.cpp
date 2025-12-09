@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include <vector>
 #include "menu.h"
 #include "../Logger/logger.h"
@@ -55,7 +56,7 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
                     }
 
                     if (selectableIPs.empty()) {
-                        std::cout << "\nThere are no unsafe IPs to block\n";
+                        std::cout << "\nThere are no unsafe IPs to block.\n";
                         break;
                     }
 
@@ -66,7 +67,7 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
                         std::cout << x++ << " - " << ipEvent.src_ip << " User: " << ipEvent.username << "\n";
                     }
 
-                    std::cout << "\n0 - Back to main menu\n";
+                    std::cout << "\n0 - Back to main menu.\n";
                     std::cout << "\nWhich IP would you like to block?\n";
 
                     std::cin >> blockChoice;
@@ -74,7 +75,7 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
                     if (std::cin.fail()) {
                         std::cin.clear();
                         std::cin.ignore (1000, '\n');
-                        std::cout << "\nInvalid input\n";
+                        std::cout << "\nInvalid input.\n";
                         continue;
                     }
 
@@ -126,41 +127,58 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
 
             case 4: {
                 std::cout << "\nBringing up search query...\n";
-                std::string query;
-                std::cin >> query;
 
-                bool found = false;
+                while (true) {
+                    std::cout << "\n0 - Back to main menu.\n";
+                    std::cout << "\nEnter username: ";
+                    std::string query;
+                    std::getline(std::cin >> std::ws, query);
 
-                blockedIPs.forEach([&](const std::string &ip) {
+                    if (query == "0") {
+                        std::cout << "Returning to main menu...\n";
+                        break;
+                    }
+
+                    if (query.find(' ') != std::string::npos) {
+                        std::cout << "The username cannot contain spaces.\n";
+                        continue;
+                    }
+                
+                    bool found = false;
+
+                    blockedIPs.forEach([&](const std::string &ip) {
+                        for (const auto &e : events) {
+                            if (e.src_ip == ip && e.username == query) {
+                                std::cout << "The username: \"" << query << "\", with an IP of " << ip << " is blocked.\n";
+                                found = true;
+                                break;
+                            }
+                        }
+                    });
+
+                    unsafeIPs.forEach([&](const std::string &ip) {
+                        for (const auto &e : events) {
+                            if (e.src_ip == ip && e.username == query) {
+                                std::cout << "The username: \"" << query << "\", with an IP of " << ip << " is unsafe.\n";
+                                found = true;
+                                break;
+                            }
+                        }
+                    });
+
                     for (const auto &e : events) {
-                        if (e.src_ip == ip && e.username == query) {
-                            std::cout << "The username: \"" << query << "\" with an IP of " << ip << " is blocked.\n";
+                        if (e.username == query && !blockedIPs.contains(e.src_ip) && !unsafeIPs.contains(e.src_ip)) {
+                            std::cout << "The username: \"" << query << "\", with an IP of " << e.src_ip << " is safe.\n";
                             found = true;
-                            break;
                         }
                     }
-                });
 
-                unsafeIPs.forEach([&](const std::string &ip) {
-                    for (const auto &e : events) {
-                        if (e.src_ip == ip && e.username == query) {
-                            std::cout << "The username: \"" << query << "\" with an IP of " << ip << " is unsafe.\n";
-                            found = true;
-                            break;
-                        }
-                    }
-                });
-
-                for (const auto &e : events) {
-                    if (e.username == query && !blockedIPs.contains(e.src_ip) && !unsafeIPs.contains(e.src_ip)) {
-                        std::cout << "The username: \"" << query << "\" with an IP of " << e.src_ip << " is safe.\n";
-                        found = true;
+                    if (!found) {
+                        std::cout << "The username: \"" << query << "\", cannot be found or does not exist.\n";
                     }
                 }
 
-                if (!found) {
-                    std::cout << "The username: \"" << query << "\", cannot be found or does not exist.\n";
-                }
+                break;
             }
         }
     }
