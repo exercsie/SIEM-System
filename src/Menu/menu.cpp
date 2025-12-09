@@ -74,10 +74,11 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
                     }
 
                     std::string ipToBlock = selectableIPs[blockChoice - 1].src_ip;
+                    std::string userToBlock = selectableIPs[blockChoice - 1].username;
 
                     blockedIPs.insert(ipToBlock);
                     blockedIPs.saveToFile("Files/blockedIPs.txt");
-                    std::cout << "\nBlocked IP: " << ipToBlock << "\n";
+                    std::cout << "\nBlocked IP: " << ipToBlock << " User: " << userToBlock << "\n";
                 }
 
                 break;
