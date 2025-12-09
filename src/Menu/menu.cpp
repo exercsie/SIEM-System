@@ -13,6 +13,7 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
         std::cout << "1 - Check alerts \n";
         std::cout << "2 - Block IPs \n";
         std::cout << "3 - Show blocked IPs\n";
+        std::cout << "4 - Search user\n";
         std::cin >> choice;
 
         if (std::cin.fail()) {
@@ -20,7 +21,7 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
             std::cin.ignore (1000, '\n');
             std::cout << "Invalid input. Try again.\n";
             continue;
-        } else if (choice > 3) {
+        } else if (choice > 4) {
             std::cout << "Invalid choice. Try again.\n";
         }
 
@@ -119,8 +120,10 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
 
                 std::cout << x++ << " - " << blockedIPs << " User: " << user << "\n";
             });
-
             break;
+
+            case 4: std::cout << "\nBringing up search query";
+            std::string query;
         }
     }
 }
