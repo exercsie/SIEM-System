@@ -104,6 +104,19 @@ public:
         return false;
     }
 
+    bool saveAllToFile(const std::string &filename) const {
+        std::ofstream file(filename, std::ios::trunc);
+        if (!file.is_open()) {
+            return false;
+        }
+        IPNode *current = head;
+        while (current) {
+            file << current->ip << "\n";
+            current = current->next;
+        }
+        return true;
+    }
+
     bool saveToFile (const std::string &filename) const {
         std::ofstream file (filename, std::ios::app);
         if (!file.is_open()) return false;
