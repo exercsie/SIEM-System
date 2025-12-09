@@ -31,11 +31,16 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
                 return;
             }
 
-            case 1: { std::cout << "\nChecking alerts..\n";
-                processEvents(events, rules, unsafeIPs);
+            case 1: { 
+                std::cout << "\nChecking alerts..\n";
+                int count = processEvents(events, rules, unsafeIPs);
+
+                if (count == 0) {
+                    std::cout << "\nNo alerts detected.\n";
+                }
                 break;
             }  
-            
+
             case 2: {
                 std::cout << "\nChecking blocked IPs...\n";
                 int blockChoice = -1;
