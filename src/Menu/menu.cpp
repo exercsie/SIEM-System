@@ -127,6 +127,19 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
             case 4: {
                 std::cout << "\nBringing up search query...\n";
                 std::string query;
+                std::cin >> query;
+
+                bool found = false;
+
+                blockedIPs.forEach([&](const std::string &ip) {
+                    for (const auto &e : events) {
+                        if (e.src_ip == ip && e.username == query) {
+                            std::cout << "User " << query << " IP of " << ip << " is blocked\n";
+                            found = true;
+                            break;
+                        }
+                    }
+                });
             }
         }
     }
