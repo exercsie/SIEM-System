@@ -19,10 +19,10 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
         if (std::cin.fail()) {
             std::cin.clear();
             std::cin.ignore (1000, '\n');
-            std::cout << "Invalid input. Try again.\n";
+            std::cout << "\nInvalid input. Try again.\n";
             continue;
         } else if (choice > 4) {
-            std::cout << "Invalid choice. Try again.\n";
+            std::cout << "\nInvalid choice. Try again.\n";
         }
 
         switch (choice) {
@@ -32,36 +32,22 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
             }
 
             case 1: { 
-                std::cout << "\nChecking alerts..\n";
+                std::cout << "\nChecking alerts...\n";
                 int count = processEvents(events, rules, unsafeIPs);
 
                 if (count == 0) {
-                    std::cout << "\nNo alerts detected.\n";
+                    std::cout << "No alerts detected.\n";
                 }
                 break;
             }  
 
             case 2: {
-                std::cout << "\nChecking blocked IPs...\n";
+                std::cout << "\nLoading IPs to block...";
                 int blockChoice = -1;
-                int x = 1;
 
                 while (true) {
-                    std::cout << "The current unsafe ips are: \n"; 
-                    unsafeIPs.forEach([&](const std::string &unsafeIPs) {
-                    std::string user = "Unknown";
-
-                    for (const auto &e : events) {
-                        if (e.src_ip == unsafeIPs) {
-                            user = e.username;
-                            break;
-                        }
-                    }   
-                        
-                std::cout << x++ << " - " << unsafeIPs << " User: " << user << "\n";
-                });
-                    
                     std::vector<Event> selectableIPs;
+
                     for (const auto &event : events) {
                         if (unsafeIPs.contains(event.src_ip) && !blockedIPs.contains(event.src_ip)) {
                             selectableIPs.push_back(event);
@@ -69,23 +55,31 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
                     }
 
                     if (selectableIPs.empty()) {
-                        std::cout << "\nThere are no more unsafe IPs to block\n";
+                        std::cout << "\nThere are no unsafe IPs to block\n";
                         break;
+                    }
+
+                    std::cout << "\nThe current unsafe IPs are:\n";
+                    int x = 1;
+
+                    for (const auto &ipEvent : selectableIPs) {
+                        std::cout << x++ << " - " << ipEvent.src_ip << " User: " << ipEvent.username << "\n";
                     }
 
                     std::cout << "\n0 - Back to main menu\n";
                     std::cout << "\nWhich IP would you like to block?\n";
-
-                    for (int i = 0; i < selectableIPs.size(); i++) {
-                        std::cout << i + 1 << " - " << selectableIPs[i].src_ip << " User: " << selectableIPs[i].username << std::endl;
-                    }
 
                     std::cin >> blockChoice;
 
                     if (std::cin.fail()) {
                         std::cin.clear();
                         std::cin.ignore (1000, '\n');
-                        std::cout << "Invalid input";
+                        std::cout << "\nInvalid input\n";
+                        continue;
+                    }
+
+                    if (blockChoice < 0 || blockChoice > selectableIPs.size()) {
+                        std::cout << "\nInvalid choice.\n";
                         continue;
                     }
 
@@ -110,7 +104,7 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
 
             case 3: {
                 int x = 1;
-                std::cout << "\nChecking blocked IPs...\n";
+                std::cout << "\nShowing blocked IPs...\n";
                 if (blockedIPs.empty()) {
                     std::cout << "There are no blocked ips.\n";
                     break;
@@ -131,7 +125,7 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
             }
 
             case 4: {
-                std::cout << "\nBringing up search query";
+                std::cout << "\nBringing up search query...\n";
                 std::string query;
             }
         }
