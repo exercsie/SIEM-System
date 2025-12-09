@@ -39,6 +39,15 @@ public:
         return true;
     }
 
+    template<typename Func>
+    void forEach(Func func) const {
+        IPNode* current = head;
+        while (current) {
+            func(current->ip);
+            current = current->next;
+        }
+    }
+
     bool contains(const std::string &ip) const {
         IPNode *current = head;
         while (current) {
@@ -54,7 +63,7 @@ public:
         IPNode *current = head;
         int x = 1;
         while (current) {
-            std::cout << x++ << " - " << current->ip << "\n";
+            std::cout << x++ << " - " << current->ip <<"\n";
             current = current->next;
         }
         if (head == nullptr) {

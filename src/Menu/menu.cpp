@@ -85,7 +85,22 @@ void menu(IPList &unsafeIPs, IPList &blockedIPs, std::vector<Event> &events, std
             }
 
             case 3: std::cout << "\nChecking blocked IPs...\n";
-            blockedIPs.printIPs();
+
+            int x = 1;
+
+            blockedIPs.forEach([&](const std::string &blockedIPs) {
+                std::string user = "Unknown";
+
+                for (const auto &e : events) {
+                    if (e.src_ip == blockedIPs) {
+                        user = e.username;
+                        break;
+                    }
+                }
+
+                std::cout << x++ << " - " << blockedIPs << " User: " << user << "\n";
+            });
+
             break;
         }
     }
