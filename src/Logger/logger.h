@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 struct Event {
     std::string event_type;
@@ -24,3 +25,4 @@ struct Alert {
 
 bool evaluate(const Event &e, const Rule &r);
 Alert generateAlert(const Event &e, const Rule &r);
+std::vector<Event> loadEventFile(const std::string &filename);
