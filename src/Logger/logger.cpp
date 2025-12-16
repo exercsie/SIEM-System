@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include <regex>
 
 bool evaluate(const Event &e, const Rule &r) {
     if (r.field == "success" && r.op == "==") {
@@ -42,6 +43,7 @@ std::vector<Event> loadEventFile(const std::string &filename) {
         if (std::getline(x, event.event_type, ',') && std::getline(x, event.username, ',') && std::getline(x, event.src_ip, ',') 
         && std::getline(x, stringWorked, ',') && std::getline (x, event.severity)) {
             event.success = (stringWorked == "true");
+            event.severity = std::regex_replace(event.severity, std::regex("\\\\033"), "\033");
             events.push_back(event);
         }
     }
